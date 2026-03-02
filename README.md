@@ -21,7 +21,7 @@ Therefore, we are going to create a "containerized environment," relying on [App
 * [ ] Make sure the resulting binary container files (`*.sif`) are ignored and not accidentally tracked by Git (add them to your `.gitignore`).
 * [ ] Create a `container/env.def` file in the repository.
 * [ ] Declare a container recipe that sets up our environment properly (use `uv` inside the `%post` section of the container for this).
-* [ ] Build the `env.sif` file locally on your machine and try it out with the [`apptainer shell`](https://www.google.com/search?q=%5Bhttps://apptainer.org/docs/user/latest/cli/apptainer_shell.html%5D(https://apptainer.org/docs/user/latest/cli/apptainer_shell.html)) command.
+* [ ] Build the `env.sif` file locally on your machine and try it out with the [`apptainer shell`](https://apptainer.org/docs/user/main/cli/apptainer_shell.html) command.
 * [ ] Log in to the cluster, check out your repository, and try building the `env.sif` file directly on the cluster.
 * [ ] "Enter" the created container environment on the cluster using `apptainer shell container/env.sif`. Once inside:
 * Run `which python`. Which Python executable are you using now?
