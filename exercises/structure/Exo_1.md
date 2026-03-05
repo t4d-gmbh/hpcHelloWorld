@@ -18,8 +18,9 @@ However, this scripts has some issues we want to address here.
 - Separate configuration (Soc Pillar 2):
   ...
   
-- Separate environmental variables (SoC Pillar 1):
-  ...  
+- Separate environment variables (SoC Pillar 1):
+  ...
+  
 > [!NOTE]
 > Since we might track the input data directly in the project and, also,
   expect "tiny" output data files, we could get away with considering the input
