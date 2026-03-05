@@ -1,9 +1,9 @@
 [project]
-name = "hpchw"
+name = "exohw"
 authors = [
   { name="Your Name", email="your.email@example.com" },
 ]
-description = "A simple HPC Hello World Project"
+description = "A Hello World Project"
 # Relative path to the README.md file
 readme = "README.md"
 # Pin for an analyisis (== or ~= for patching) and minimal for a package (>=)
@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hpchw"]
+packages = ["src/exohw"]
 
 [build-system]
 # Require hatch-vcs alongside hatchling to enable Git tag versioning
