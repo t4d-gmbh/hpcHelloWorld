@@ -51,9 +51,43 @@ def load_json_file(file_path: Path | str) -> dict[str, Any]:
     return json_data
 
 
-def load_config(config_data):
-    config = SimpleNamespace(**config_data)
-    return config
+def load_config(config_data: dict[str, Any]) -> SimpleNamespace:
+    """
+    Converts a configuration dictionary into a nested namespace object.
+
+    This function transforms a dictionary into a SimpleNamespace to enable
+    attribute-style access (e.g., config.parameter). It utilizes a recursive
+    transformation through the json module's object_hook to ensure that nested
+    dictionaries are also converted into namespaces, rather than remaining
+    as standard dictionaries.
+
+    Parameters
+    ----------
+    config_data : dict[str, Any]
+        The dictionary containing configuration parameters, typically
+        originating from a JSON or YAML source.
+
+    Returns
+    -------
+    types.SimpleNamespace
+        A namespace object where dictionary keys are accessible as attributes.
+
+    Examples
+    --------
+    >>> data = {"model": {"layers": 5}, "batch_size": 32}
+    >>> config = load_config(data)
+    >>> config.model.layers
+    5
+    >>> config.batch_size
+    32
+    """
+    # NOTE: For shallow conversion (1st level only) this is sufficient:
+    # return SimpleNamespace(**config_data)
+    # Recursive conversion ensures all nested levels support dot notation.
+    return json.loads(
+        json.dumps(config_data),
+        object_hook=lambda d: SimpleNamespace(**d)
+    )
 
 
 def prepare_output_dir(output_path: Path | str) -> str:
