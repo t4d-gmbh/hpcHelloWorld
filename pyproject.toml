@@ -6,7 +6,7 @@ authors = [
 description = "A Hello World Project"
 # Relative path to the README.md file
 readme = "README.md"
-# Pin for an analyisis (== or ~= for patching) and minimal for a package (>=)
+# Pin for an analysis (== or ~= for patching) and minimal for a package (>=)
 requires-python = "~=3.13.0"
 # Relative path to the license file
 license.file = "LICENSE"
