@@ -8,11 +8,12 @@ to ensure maximum reusability and testability.
 import json
 from pathlib import Path
 from typing import Any
+from types import SimpleNamespace
 
 
-def load_json_config(config_path: Path | str) -> dict[str, Any]:
+def load_json_file(file_path: Path | str) -> dict[str, Any]:
     """
-    Reads and parses a JSON configuration file.
+    Reads and parses a JSON file.
 
     The specified file is accessed in read mode, and its contents are
     decoded from JSON format into a Python dictionary. It is required
@@ -21,18 +22,18 @@ def load_json_config(config_path: Path | str) -> dict[str, Any]:
 
     Parameters
     ----------
-    config_path : pathlib.Path or str
-        The file path to the targeted JSON configuration file.
+    file_path : pathlib.Path or str
+        The file path to the targeted JSON file.
 
     Returns
     -------
     dict[str, Any]
-        A dictionary containing the parsed configuration parameters.
+        A dictionary containing the parsed parameters.
 
     Raises
     ------
     FileNotFoundError
-        If the specified configuration file is not found at the given path.
+        If the specified file is not found at the given path.
     json.JSONDecodeError
         If the file contains invalid JSON syntax and cannot be parsed.
     IsADirectoryError
@@ -40,14 +41,19 @@ def load_json_config(config_path: Path | str) -> dict[str, Any]:
 
     Examples
     --------
-    >>> config = load_json_config("./configs/model_params.json")
+    >>> config = load_json_file("./configs/model_params.json")
     >>> type(config)
     <class 'dict'>
     """
-    path = Path(config_path).resolve()
+    path = Path(file_path).resolve()
     with path.open("r", encoding="utf-8") as file:
-        config_data = json.load(file)
-    return config_data
+        json_data = json.load(file)
+    return json_data
+
+
+def load_config(config_data):
+    config = SimpleNamespace(**config_data)
+    return config
 
 
 def prepare_output_dir(output_path: Path | str) -> str:
