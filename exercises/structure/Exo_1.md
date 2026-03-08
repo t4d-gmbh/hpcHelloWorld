@@ -13,9 +13,22 @@ However, this scripts has some issues we want to address here.
       concerned in this statement.
 - Separate data (SoC Pillar 4):  
   Move all that is input data into an appropriate location inside the project.  
+  Remember that we aim for a genuine project structure, in particular we want
+  to use these standard items:
+
+  ```bash
+  .env                  # environment variables
+  config/               # hyperparams, model config
+  src/                  # code: reusable functions/modules
+  scripts/drafts/       # scripts in the making
+  data/README.md        # document data stages
+  ```
+
   _Note:_ "Tiny" input data, like in this case, we can simply commit it directly into the repository.  
 
   **Bonus**: Track the input data with `git lfs`.
+
+
 - Separate configuration (Soc Pillar 2):  
   We do have some configuration data in this example. In particular, let's 
   consider the actual course name we want ot use to filter peaple with as
@@ -25,7 +38,7 @@ However, this scripts has some issues we want to address here.
   considered configuration: If the `name` key of the input data should change
   to `fullname` at some point you should not need to change your code at all.
 
-  **Hint**: use python's `SimpleNamespace` to parametrise JSON keys, e.g.:
+  **Hint**: Use python's `SimpleNamespace` to parametrise JSON keys, e.g.:
   ```
   >>> from types import SimpleNamespace
   >>> config_data = {'name': 'name', "age": "age"}
