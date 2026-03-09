@@ -51,30 +51,28 @@ To get started with declaring apptainer containers we recommend you have a look 
      
      _NOTE:_ The `.sif` binary should be excluded from version control via `.gitignore`. It is a result from your `.def` container declaration and tracking the `.def` file inside your git repository is all that is needed.
      However, being able to easily obtain a built container (i.e. the `.sif` file) can make your life much easier - an issue we will tackle in the next exercise.
+
    * Run the `src/say_hello.py` script locally through the built container.
      You can use the `--env-file .env` parameter so to inject environment variables securely.
      
      _Ask yourself what locations (i.e. folders) from your machine you need to bind to the container for this script to run smoothly?_
 
-4. Refactor your codebase to use the genuine locations for input and output data, i.e. `data/...`.
+     _NOTE:_  
+     With Apptainer you have 3 essentially different methods to run a container: `shell`, `exec` and `run`.
+     Have a look at [the course content](https://pscicomp.courses.t4d.ch/content/researchSoftwareEngineering/source/content/environments2/index.html#apptainer-runtime-guide-run-exec-and-shell) for further details how to use them and what they do differently.
+     For reprodicibility we recommend to **prioritize `apptainer run` whenever possible!**
+
+4. Refactor your codebase to use the genuine locations for input and output data, i.e. `data/...`, as default locations in case environment variables are missing.
 
    _How does this affect what environment variable you need to pass to the container?_
-
 
 > [!NOTE]
 > Note down in an issue in your repository the things that are unclear or confusing to you.
 > We are going to discuss this exercise in plenum in the next session.
 
-**Bonus**:
-Since our container definition is now part of the repository and verion-controlled like the rest, we can go ahead and build version specific container for our project.
-
-But manually building a new container for each version and copying it around wherever we need it, is a strategy that is bound to fail.
-
-Luckily CI/CD pipelines, a feature that is widely available on Git remote Services, can help us drastically here:
-
-In fact, we can setup a CI/CD pipeline to build our Apptainer containers for us store them in a www-reachable container registry for us to fetch whenever and wherever we need them.
-
-If you are completely new to CI/CD pipelines, we recommend having a look at [T4D's Course on CI/CD Workflows](ttps://t4d-gmbh.github.io/using-git-in-academia/content/ci-cd-workflows/source/content/index.html).
-Alternatively, you can ask your favorite LLM for help, and it will get you going in no time!
-
-You can also get inspiration from the CI/CD workflow script that builds and stores an Apptainer container in GitHubs registry [in the pythonProject Template](https://github.com/j-i-l/pythonProject/blob/main/.github/workflows/buildApptainerEnv.yml).
+> [!NOTE]
+> Managing `uv` properly in a container setting can be somewhat challenging.
+> The reason for this is that `uv` tries to update the environment based on `uv.lock` or the `pyproject.toml` whenever you do something like `uv run ...`.
+> This behaviour can lead to issues, as `uv` might try to write to your `VIRTUAL_ENV` directory inside the container at runtime (read only location) which will lead to an error.
+> It is also behaviour that goes against the idea of building a fixed or "frozen" environment with a container and thus we should (and can) convince `uv` to accept the environment as it is.
+> We can do so by setting environment variables: `UV_NO_SYNC=1` and `UV_FROZEN=1` directly in the `%environment` part of our container definition.

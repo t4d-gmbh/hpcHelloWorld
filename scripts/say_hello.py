@@ -43,37 +43,25 @@ def main() -> None:
     parser.add_argument(
         '--config-file',
         type=str,
-        default=os.environ.get("CONFIG_PATH"),
+        default=os.environ.get("CONFIG_PATH", "./config/hello_to.json"),
         help='Path to config file. Default: CONFIG_PATH environment variable.'
     )
     parser.add_argument(
         '--input-json',
         type=str,
-        default=os.environ.get("INPUT_JSON"),
+        default=os.environ.get("INPUT_JSON", "./data/raw/people.json"),
         help='Path to the file containing the input data.'
              'Default: INPUT_JSON environment variable.'
     )
     parser.add_argument(
         '--output-dir',
         type=str,
-        default=os.environ.get("OUTPUT_DIR"),
+        default=os.environ.get("OUTPUT_DIR", "./data/final/"),
         help='Path to output directory.'
              'Default: OUTPUT_DIR environment variable.'
     )
     args = parser.parse_args()
 
-    # 1. Resolve paths (Strict Failure if missing)
-    if not args.config_file:
-        parser.error(
-            "A configuration path must be provided either via the "
-            "'--config-file' argument or the 'CONFIG_PATH' environment "
-            "variable."
-        )
-    if not args.output_dir:
-        parser.error(
-            "An output directory must be provided either via the "
-            "'--output-dir' argument or the 'OUTPUT_DIR' environment variable."
-        )
     # 2. Execute core logic using the utilities
     #    - load config and create config namespace
     config_data = load_json_file(Path(args.config_file))
